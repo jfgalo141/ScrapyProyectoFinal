@@ -7,7 +7,7 @@ import pandas as pd
 
 class Scrapy:
     browser = None
-    initial_path = '/home/atom/Desktop/Mis_cosas/Programacion/linkedinScrapping/drivers/driverChromeLinuxFer'
+    initial_path = '/Users/fernando_cg/Desktop/ScrapyProyectoFinal/drivers/mac/chromedriver'
     def __init__(self):
         options=webdriver.ChromeOptions().add_argument('--disable-extensions-')
         self.browser = webdriver.Chrome(self.initial_path ,chrome_options=options)
