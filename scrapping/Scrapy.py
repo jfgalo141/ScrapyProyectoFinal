@@ -13,6 +13,13 @@ import pandas as pd
 class Scrapy:
     browser = None
     initial_path = '/Users/fernando_cg/Desktop/ScrapyProyectoFinal/drivers/mac/chromedriver'
+    filters ={
+        "lugar":{
+            "presencial":"/html/body/div[3]/div/div/div[2]/ul/li[6]/fieldset/div/ul/li[1]/label",
+            "remoto":"/html/body/div[3]/div/div/div[2]/ul/li[6]/fieldset/div/ul/li[2]/label",
+            "hibrido":"/html/body/div[3]/div/div/div[2]/ul/li[6]/fieldset/div/ul/li[3]/label"
+        }
+    }
     def __init__(self):
         options=webdriver.ChromeOptions().add_argument('--disable-extensions-')
         self.browser = webdriver.Chrome(self.initial_path ,chrome_options=options)
@@ -26,7 +33,7 @@ class Scrapy:
             EC.element_to_be_clickable((By.XPATH,
             "//button[@action-type='ACCEPT']"
             ))).click()
-        #time.sleep(5)
+        time.sleep(1)
         #self.browser.find_element_by_xpath("//button[@action-type='ACCEPT']").click()
     
     def entrar(self,user,password):
@@ -55,13 +62,42 @@ class Scrapy:
         if(len(ubicacion)>0):
             self.browser.find_element(By.XPATH,"//input[@class='jobs-search-box__text-input']").send_keys(ubicacion)
         self.browser.find_element(By.XPATH,"//button[@type='button']").click()
-    
-    def filtrar(filtros):
-        print("hola")
 
+    def filtrar(self,filtros):
+        #WebDriverWait(self.browser,5).until(
+        #EC.element_to_be_clickable((By.XPATH,"/html/body/div[7]/aside/div[1]/header/div[3]/button[2]/li-icon/svg"))).click()
+
+        WebDriverWait(self.browser,5).until(
+        EC.element_to_be_clickable(
+            (By.XPATH,"/html/body/div[7]/aside/div[1]/header/div[2]/button/h2/span[1]"))).click()
+        
+        WebDriverWait(self.browser,5).until(
+        EC.element_to_be_clickable(
+            (By.XPATH,"/html/body/div[7]/div[3]/div[3]/section/div/div/div/div/div/button"))).click()
+
+        for filter in filtros:
+            WebDriverWait(self.browser,5).until(
+            EC.element_to_be_clickable(
+                (By.XPATH,self.filters[filter][filtros[filter]]))).click()
+        
+        WebDriverWait(self.browser,5).until(
+        EC.element_to_be_clickable(
+            (By.XPATH,"/html/body/div[3]/div/div/div[3]/div/button[2]/span"))).click()
+   
+   
+    def scrapping(self):
+        texto = self.browser.find_element(By.XPATH,"/html/body/div[7]/div[3]/div[3]/div[2]/div/section[2]/div")
+        print(texto.find_elements_by_tag_name("div"))
+        print(texto.text)
     
     
 s = Scrapy()
 s.init_screen()
-print(s.entrar("ltyqqmemymvkishplk@kvhrw.com", "prueba1234"))
+s.entrar("eoivzjagqtvundoxpp@kvhrs.com", "prueba1234")
+#eoivzjagqtvundoxpp@kvhrs.com
+#xiwir15359@spruzme.com
+#ltyqqmemymvkishplk@kvhrw.com
 s.buscar("java","sevilla")
+time.sleep(2)
+s.filtrar({"lugar":"presencial"})
+s.scrapping()
