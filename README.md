@@ -14,6 +14,17 @@
 Importamos panda mediante el 
 >import pandas as pd
 
+## Creación de csv con python
+```python
+import csv 
+with open('ejemplo.csv', 'w') as csvfile:
+   fieldnames = ['filtro1', 'filtro2', 'filtro3']
+   writer  = csv.DictWriter(csvfile, fieldnames = fieldnames)
+   writer.writeheader()
+   writer.writerow({'filtro1' : 'Marta','filtro2' : 'Marco', 'filtro3' : 'Marso'})
+
+print("datos insertados")
+```
 
 ## Bibliografía
 
