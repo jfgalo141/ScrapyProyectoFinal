@@ -13,3 +13,8 @@
 ## Pandas
 Importamos panda mediante el 
 >import pandas as pd
+
+
+## Bibliografía
+
+[Leer csv](https://pharos.sh/leer-y-escribir-archivos-csv-en-python-con-pandas/)
