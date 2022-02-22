@@ -42,7 +42,7 @@ with open('ejemplo.csv') as File:
 import pandas as pd 
 
 df = pd.read_csv("ejemplo.csv") 
-df.loc[5, 'filtro1'] = 'Sandra'
+df.loc[0, 'filtro1'] = 'Sandra'
 df.to_csv("ejemplo.csv", index=False) 
 print(df)
 ```
