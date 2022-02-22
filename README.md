@@ -50,5 +50,7 @@ print(df)
 
 
 ## Bibliografía
-
 [Leer csv](https://pharos.sh/leer-y-escribir-archivos-csv-en-python-con-pandas/)
+[Actualizar csv](https://es.acervolima.com/actualizar-el-valor-de-la-columna-de-csv-en-python/)
+[]
+
