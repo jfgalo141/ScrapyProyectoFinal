@@ -26,6 +26,29 @@ with open('ejemplo.csv', 'w') as csvfile:
 print("datos insertados")
 ```
 
+## Lectura de csv con python
+```python
+import csv
+with open('ejemplo.csv') as File:
+    reader = csv.reader(File, delimiter=',', quotechar=',',
+                        quoting=csv.QUOTE_MINIMAL)
+    for row in reader:
+        print(row)
+```
+
+## Actualizar datos de csv con python usando pandas
+
+```python
+import pandas as pd 
+
+df = pd.read_csv("ejemplo.csv") 
+df.loc[5, 'filtro1'] = 'Sandra'
+df.to_csv("ejemplo.csv", index=False) 
+print(df)
+```
+
+
+
 ## Bibliografía
 
 [Leer csv](https://pharos.sh/leer-y-escribir-archivos-csv-en-python-con-pandas/)
