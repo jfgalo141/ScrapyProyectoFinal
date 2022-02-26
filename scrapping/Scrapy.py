@@ -12,6 +12,7 @@ import pandas as pd
 #Guardar datos en csv
 class Scrapy:
     browser = None
+    table = pd.DataFrame(columns=["titulo","empresa","lugar","tipo"])
     initial_path = '/Users/fernando_cg/Desktop/ScrapyProyectoFinal/drivers/mac/chromedriver'
     filters ={
         "lugar":{
@@ -84,20 +85,49 @@ class Scrapy:
         EC.element_to_be_clickable(
             (By.XPATH,"/html/body/div[3]/div/div/div[3]/div/button[2]/span"))).click()
    
-   
+    def anuncio(self):
+        #/html/body/div[7]/div[3]/div[3]/div[2]/div/section[1]/div/div/ul/li[1]/div/div
+        jobs = self.browser.find_elements(By.CLASS_NAME,"job-card-container")
+        for i in jobs:
+            datos = []
+            contador = 0
+            for line in i.text.splitlines():
+                if contador <4:
+                    datos.append(line)
+                else:
+                    break
+
+            self.saveTable(datos[0],datos[1],datos[2],datos[3])
+            self.saveCsv()
+            
+
     def scrapping(self):
-        texto = self.browser.find_element(By.XPATH,"/html/body/div[7]/div[3]/div[3]/div[2]/div/section[2]/div")
-        print(texto.find_elements_by_tag_name("div"))
-        print(texto.text)
-    
+        #"/html/body/div[7]/div[3]/div[3]/div[2]/div/section[2]/div 
+        time.sleep(3)
+        titulo = self.browser.find_element(By.XPATH,"/html/body/div[7]/div[3]/div[3]/div[2]/div/section[2]/div/div/div[1]/div/div[1]/div/div[2]/a/h2").text
+        lugarRemoto = self.browser.find_element(By.XPATH,"/html/body/div[7]/div[3]/div[3]/div[2]/div/section[2]/div/div/div[1]/div/div[1]/div/div[2]/div[1]/span[1]/span[2]").text
+        tipoDeJornada = self.browser.find_element(By.XPATH,"/html/body/div[7]/div[3]/div[3]/div[2]/div/section[2]/div/div/div[1]/div/div[1]/div/div[2]/div[2]/ul/li[1]/span").text
+        url = self.browser.current_url
+        self.saveTable(titulo,lugarRemoto,tipoDeJornada,url)
+        self.saveCsv()
+
+    def saveTable(self,titulo,lugarRemoto,tipoDeJornada,url):
+        data =pd.DataFrame([[titulo,lugarRemoto,tipoDeJornada,url]],columns=["titulo","empresa","lugar","tipo"])
+        self.table = self.table.append(data)
+
+    def saveCsv(self):
+        self.table.to_csv("./data/offerts.csv",index=False)
     
 s = Scrapy()
 s.init_screen()
-s.entrar("eoivzjagqtvundoxpp@kvhrs.com", "prueba1234")
+s.entrar("jytizjltoohjfxnquk@nvhrw.com", "prueba1234")
 #eoivzjagqtvundoxpp@kvhrs.com
 #xiwir15359@spruzme.com
 #ltyqqmemymvkishplk@kvhrw.com
+#jytizjltoohjfxnquk@nvhrw.com
+#hacer que se guarde un csv con las solicitudes de la cuenta
 s.buscar("java","sevilla")
 time.sleep(2)
 s.filtrar({"lugar":"presencial"})
-s.scrapping()
+time.sleep(4)
+s.anuncio()

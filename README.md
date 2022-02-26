@@ -9,7 +9,7 @@
 ## Python
 
 ## Selenium
-
+>Para que funcione correctamente tienes que usar chrome y descargarte el driver referente a tu version y poner bien las rutas en el fichero scrapy.py
 ## Pandas
 Importamos panda mediante el 
 >import pandas as pd
